@@ -30,7 +30,12 @@ const getAllPersons = (res) => {
   Repository.getAll('person', res)
 }
 
+const getOnePerson = (id, res) => {
+  Repository.getOne('person', id, res)
+}
+
 module.exports = {
   createNewPerson,
-  getAllPersons
+  getAllPersons,
+  getOnePerson
 };

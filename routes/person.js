@@ -1,10 +1,14 @@
-const personRouter = require('express').Router()
-const registerController = require ('../controller/register')
-const personController = require ('../controller/person')
+const personRouter = require('express').Router();
+const registerController = require('../controller/register');
+const personController = require('../controller/person');
 
-personRouter  
-  .route("/")
+personRouter
+  .route('/')
   .post(registerController.handleNewPerson)
-  .get(personController.handlePersons)
+  .get(personController.handleAllPersons);
 
-module.exports = personRouter
+personRouter
+  .route('/:id')
+  .get(personController.handleOnelPerson)
+
+module.exports = personRouter;

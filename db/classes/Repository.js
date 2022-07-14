@@ -15,6 +15,11 @@ class Repository {
     const result = await db.query('SELECT * FROM ' + table);
     res.json(result.rows)
   }
+
+  static async getOne(table, id, res) {
+    const result = await db.query(`SELECT * FROM ${table} WHERE id = ${id}`)
+    res.json(result.rows)
+  }
 }
 
 class Helper {

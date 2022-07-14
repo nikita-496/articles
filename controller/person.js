@@ -1,7 +1,12 @@
 const personHelper = require('../utils/helper/person_helper');
 
-const handlePersons = async (req, res) => {
-  personHelper.getAllPersons(res)
-}
+const handleAllPersons = (req, res) => {
+  personHelper.getAllPersons(res);
+};
 
-module.exports = { handlePersons }
+const handleOnelPerson = (req, res) => {
+  const id = req.params.id;
+  personHelper.getOnePerson(id, res);
+};
+
+module.exports = { handleAllPersons, handleOnelPerson };
