@@ -1,42 +1,41 @@
 const db = require('../db');
 
-class Repositiory {
-  _table = '';
-  _columns = '';
-  _values = [];
-
-  constructor({table, columns, values}) {
-    this._table = table;
-    this._columns = columns;
-    this._values = values;
-    this._helper = new Helper()
-  }
-
-  async save() {
+class Repository {
+  static async save(table, columns, values) {
     const saved = await db.query(
-      `INSERT INTO ${this._table} (${this._columns}) values (${this._helper.setValueID(this._values)}) RETURNING *`,
-      this._values
+      `INSERT INTO ${table} (${columns}) values (${Helper.setValueID(
+        Helper.convertValuesToArray(values)
+      )}) RETURNING *`,
+      Helper.convertValuesToArray(values)
     );
     return saved.rows[0];
+  }
+
+  static async getAll(table, res) {
+    const result = await db.query('SELECT * FROM ' + table);
+    res.json(result.rows)
   }
 }
 
 class Helper {
-  setValueID(values) {
+  static setValueID(values) {
     let result = '';
     let i = 1;
-    const length = values.length
+    const length = values.length;
 
     while (i <= length) {
       if (i === length) {
         result = result.concat(`$${i}`);
-        break
+        break;
       }
       result = result.concat(`$${i},`);
-      i++
+      i++;
     }
     return result;
   }
+  static convertValuesToArray(values) {
+    return Object.values(values);
+  }
 }
 
-module.exports = { Repositiory, Helper};
+module.exports = { Repository, Helper };
