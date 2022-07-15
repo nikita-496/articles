@@ -2,6 +2,7 @@ const supertest = require('supertest');
 const app = require('../../app');
 const helper = require('../test_person_helper');
 const logger = require('../../utils/logger');
+const e = require('express');
 const api = supertest(app);
 
 describe('a test for each route of the API', () => {
@@ -30,8 +31,21 @@ describe('a test for each route of the API', () => {
         .expect(200)
         .expect('Content-Type', /application\/json/);
 
-
       expect(resultPerson.body).toEqual([personToView]);
+      logger.info(`Пользователь по id ${personToView.id} найден`)
+    });
+    test('a person can be deleted', async () => {
+      const personAtStart = await helper.checkPersonsInDb('person');
+      const personToDelete = personAtStart[0];
+
+      await api.delete(`/api/v1/person/${personToDelete.id}`).expect(204);
+
+      const personAtEnd = await helper.checkPersonsInDb('person');
+      expect(personAtEnd).toHaveLength(helper.initialPersons.length - 1);
+
+      const login = personAtEnd.map((p) => p.login);
+      expect(login).not.toContain(personToDelete.login);
+      logger.info(`Пользователь по id ${personToDelete.id} удален`)
     });
   });
 
