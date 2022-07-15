@@ -41,7 +41,7 @@ describe('a test for each route of the API', () => {
         name: 'Fedor',
         surname: 'Dostoyevsky',
         login: 'Fedoro',
-        password: 'Fedoro',
+        password: 'Fedoro12',
         email: 'fedoro@gmail.com',
       };
 
