@@ -2,7 +2,6 @@ const supertest = require('supertest');
 const app = require('../../app');
 const helper = require('../test_person_helper');
 const logger = require('../../utils/logger');
-const e = require('express');
 const api = supertest(app);
 
 describe('a test for each route of the API', () => {

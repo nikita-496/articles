@@ -1,4 +1,5 @@
 const db = require('../db/db');
+const Person = require('../db/model/Person');
 
 const initialPersons = [
   {
@@ -20,30 +21,24 @@ const initialPersons = [
 const initializeDb = async () => {
   await db.query('DELETE FROM person;');
 
-  {
-    const { name, surname, login, password, email } = initialPersons[0];
+  const personObjects = initialPersons.map((person) => new Person(person));
+  const promiseArray = personObjects.map(async (person) => {
+    const { name, surname, login, password, email } = person;
     await db.query(
       'INSERT INTO person (name, surname, login, password, email) values ($1,$2,$3,$4,$5) RETURNING *',
       [name, surname, login, password, email]
     );
-  }
-
-  {
-    const { name, surname, login, password, email } = initialPersons[1];
-    await db.query(
-      'INSERT INTO person (name, surname, login, password, email) values ($1,$2,$3,$4,$5) RETURNING *',
-      [name, surname, login, password, email]
-    );
-  }
+  });
+  await Promise.all(promiseArray);
 };
 
 const checkPersonsInDb = async (table) => {
   const persons = await db.query('SELECT * FROM ' + table);
-  return persons.rows
+  return persons.rows;
 };
 
 module.exports = {
   initialPersons,
   initializeDb,
-  checkPersonsInDb
+  checkPersonsInDb,
 };

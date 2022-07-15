@@ -1,9 +1,9 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+require('express-async-errors');
 
-app.use(express.json())
+app.use(express.json());
 
+app.use('/api/v1/person', require('./routes/person'));
 
-app.use("/api/v1/person", require("./routes/person"))
-
-module.exports = app
+module.exports = app;
