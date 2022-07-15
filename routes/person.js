@@ -5,7 +5,8 @@ const personController = require('../controller/person');
 personRouter
   .route('/')
   .post(registerController.handleNewPerson)
-  .get(personController.handleAllPersons);
+  .get(personController.handleAllPersons)
+  .put(personController.handleUpdatedPerson)
 
 personRouter
   .route('/:id')

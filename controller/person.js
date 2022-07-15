@@ -9,11 +9,15 @@ const handleOnePerson = (req, res) => {
   personHelper.getOnePerson(id, res);
 };
 
-const handleDeletedPerson = async (req, res) => {
+const handleDeletedPerson = (req, res) => {
   const id = req.params.id;
-  await personHelper.removePerson(id, res)
-  //res.json(`Person with id ${req.params.id} deleted`);
-  res.status(204).end();
+  personHelper.removePerson(id, res)
 }
 
-module.exports = { handleAllPersons, handleOnePerson, handleDeletedPerson };
+const handleUpdatedPerson = (req, res) => {
+  console.log(req.body)
+  const { id, name, surname, login, password, email } = req.body;
+  personHelper.updatePerson({name, surname, login, password, email}, id, res)
+}
+
+module.exports = { handleAllPersons, handleOnePerson, handleDeletedPerson, handleUpdatedPerson };

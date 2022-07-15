@@ -13,20 +13,24 @@ class Repository {
 
   static async getAll(table, res) {
     const result = await db.query('SELECT * FROM ' + table);
-    res.json(result.rows)
+    res.json(result.rows);
   }
 
   static async getOne(table, id, res) {
-    const result = await db.query(`SELECT * FROM ${table} WHERE id = ${id}`)
-    res.json(result.rows)
+    const result = await db.query(`SELECT * FROM ${table} WHERE id = ${id}`);
+    res.json(result.rows);
   }
 
-  static async remove(table, id, res) {
-    await db.query(
-      `DELETE FROM ${table} WHERE id = ${id} RETURNING *`
-    )
-    //console.log(res.json(`Person with id ${id} deleted`))
-    //res.json(person.rows[0])
+  static async remove(table, id) {
+    await db.query(`DELETE FROM ${table} WHERE id = ${id} RETURNING *`);
+  }
+
+  static async update(table, id, columns, values, res) {
+    const updatedPerson = await db.query(
+      `UPDATE ${table} set ${Helper.createDbQueryString(columns)} WHERE id = ${id} RETURNING *`,
+      Helper.convertValuesToArray(values)
+    );
+    res.json(updatedPerson.rows[0]);
   }
 }
 
@@ -48,6 +52,10 @@ class Helper {
   }
   static convertValuesToArray(values) {
     return Object.values(values);
+  }
+  static createDbQueryString(columns) {
+    const dbQueryString = columns.map((c, i) => c + ' = ' + '$' + [i + 1]);
+    return dbQueryString;
   }
 }
 
