@@ -32,20 +32,7 @@ describe('a test for each route of the API', () => {
         .expect('Content-Type', /application\/json/);
 
       expect(resultPerson.body).toEqual([personToView]);
-      logger.info(`Пользователь по id ${personToView.id} найден`)
-    });
-    test('a person can be deleted', async () => {
-      const personAtStart = await helper.checkPersonsInDb('person');
-      const personToDelete = personAtStart[0];
-
-      await api.delete(`/api/v1/person/${personToDelete.id}`).expect(204);
-
-      const personAtEnd = await helper.checkPersonsInDb('person');
-      expect(personAtEnd).toHaveLength(helper.initialPersons.length - 1);
-
-      const login = personAtEnd.map((p) => p.login);
-      expect(login).not.toContain(personToDelete.login);
-      logger.info(`Пользователь по id ${personToDelete.id} удален`)
+      logger.info(`Пользователь по id ${personToView.id} найден`);
     });
   });
 
@@ -74,6 +61,51 @@ describe('a test for each route of the API', () => {
 
       logger.info('expected', personsAtEnd.length, 'received', helper.initialPersons.length + 1);
       logger.info('Fedoro is includes - ' + loginPersons.includes('Fedoro'));
+    });
+  });
+
+  describe('testing DELETE API', () => {
+    test('a person can be deleted', async () => {
+      const personAtStart = await helper.checkPersonsInDb('person');
+      const personToDelete = personAtStart[0];
+
+      await api
+        .delete(`/api/v1/person/${personToDelete.id}`)
+        .expect(204);
+
+      const personAtEnd = await helper.checkPersonsInDb('person');
+      expect(personAtEnd).toHaveLength(helper.initialPersons.length - 1);
+
+      const login = personAtEnd.map((p) => p.login);
+      expect(login).not.toContain(personToDelete.login);
+      logger.info(`Пользователь по id ${personToDelete.id} удален`);
+    });
+  });
+
+  describe('testing PUT API', () => {
+    test('a person can be updated', async () => {
+      const updatePerson = {
+        name: 'Alexandr',
+        surname: 'Pushkin',
+        login: 'NKSHP',
+        password: 'NKSHP',
+        email: 'alex@gmail.com',
+      };
+
+      const personAtStart = await helper.checkPersonsInDb('person');
+      const personToUpdate = personAtStart[0];
+
+      await api
+        .put('/api/v1/person')
+        .send({...updatePerson, id: personToUpdate.id})
+        .expect('Content-Type', /application\/json/);
+
+
+      const personAtEnd = await helper.checkPersonsInDb('person');
+
+      expect(personAtEnd).toHaveLength(helper.initialPersons.length);
+
+      expect(personToUpdate).not.toEqual(personAtEnd[0]);
     });
   });
 });
