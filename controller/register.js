@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const personHelper = require('../utils/helper/person_helper');
+const validationHelper = require('../utils/helper/validation_helper');
 
 const handleNewPerson = async (req, res) => {
   const { name, surname, login, password, email } = req.body;
@@ -10,15 +11,22 @@ const handleNewPerson = async (req, res) => {
     });
   }
 
-  //const registeredUsers = new Person();
-  //const registeredLogins = await registeredUsers.selectLogin();
-  // аналог - checkLogin
+  if (await validationHelper.validateName(name, res, 'Имя')) {
+    return
+  }
+  else if(await validationHelper.validateName(surname, res, 'Фамилия')) {
+    return 
+  }
+  else if(await validationHelper.validateLogin(login, res)) {
+    return 
+  }
+  else if(await validationHelper.validatePassword(password, res)) {
+    return
+  }
 
-  //registerHepler.checkLogin()
-
-  /*if (countDuplicates(registeredLogins.rows, login)) {
-    return res.sendStatus(409); //Conflict
-  }*/
+  else if(await validationHelper.validateEmail(email, res)) {
+    return
+  }
 
   try {
     // шифрование пароля
@@ -30,11 +38,5 @@ const handleNewPerson = async (req, res) => {
   }
 };
 
-/*function countDuplicates(registeredLogins, newLogin) {
-  const duplicate = registeredLogins.filter(
-    (registeredLogin) => registeredLogin.login === newLogin
-  );
-  return duplicate.length;
-}*/
 
 module.exports = { handleNewPerson }

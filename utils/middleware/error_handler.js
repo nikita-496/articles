@@ -1,7 +1,7 @@
 const logger = require('../logger');
 
 const errorHandler = (error, req, res, next) => {
-  logger.error(error.message);
+  logger.error(error.message)
 
   if (error.name === 'Conflict') {
     return res.status(409);
@@ -9,4 +9,4 @@ const errorHandler = (error, req, res, next) => {
   next(error)
 };
 
-module.exports = errorHandler;
+module.exports = { errorHandler };

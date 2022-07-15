@@ -13,7 +13,7 @@ class Repository {
 
   static async getAll(table, res) {
     const result = await db.query('SELECT * FROM ' + table);
-    res.json(result.rows);
+    return res.json(result.rows);
   }
 
   static async getOne(table, id, res) {
