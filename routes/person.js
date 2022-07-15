@@ -9,6 +9,7 @@ personRouter
 
 personRouter
   .route('/:id')
-  .get(personController.handleOnelPerson)
+  .get(personController.handleOnePerson)
+  .delete(personController.handleDeletedPerson);
 
 module.exports = personRouter;

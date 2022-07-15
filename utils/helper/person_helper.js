@@ -2,6 +2,8 @@ const { Repository } = require('../../db/classes/Repository');
 const Person = require('../../db/model/Person');
 const logger = require('../logger')
 
+const TABLE = 'person'
+
 // Проверить наличие на дублирования логина регистрируемго пользователя с существующими в бд
 /*const checkLogin = (registeredLogin) => {
   // создать класс (как Repository), который будет искать в бд
@@ -20,22 +22,27 @@ const createNewPerson = (registrationData, res) => {
   const person = new Person(registrationData);
 
   logger.info("Регистрируемый пользователь:", person)
-  Repository.save('person', columns, person).then((savedUser) => {
+  Repository.save(TABLE, columns, person).then((savedUser) => {
     res.status(201).json(savedUser);
     return savedUser;
   });
 };
 
 const getAllPersons = (res) => {
-  Repository.getAll('person', res)
+  Repository.getAll(TABLE, res)
 }
 
 const getOnePerson = (id, res) => {
-  Repository.getOne('person', id, res)
+  Repository.getOne(TABLE, id, res)
+}
+
+const removePerson = async (id, res) => {
+  await Repository.remove(TABLE,  id, res)
 }
 
 module.exports = {
   createNewPerson,
   getAllPersons,
-  getOnePerson
+  getOnePerson,
+  removePerson,
 };

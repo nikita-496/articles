@@ -20,6 +20,14 @@ class Repository {
     const result = await db.query(`SELECT * FROM ${table} WHERE id = ${id}`)
     res.json(result.rows)
   }
+
+  static async remove(table, id, res) {
+    await db.query(
+      `DELETE FROM ${table} WHERE id = ${id} RETURNING *`
+    )
+    //console.log(res.json(`Person with id ${id} deleted`))
+    //res.json(person.rows[0])
+  }
 }
 
 class Helper {
