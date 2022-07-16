@@ -41,7 +41,7 @@ const validateLogin = async (validationLogin, res) => {
   }
 
   // Проверить наличие на дублирования логина регистрируемго пользователя с существующими в бд
-  const registeredLogin = await ExporerPerson.selectLogin(validationLogin);
+  const registeredLogin = await ExporerPerson.selectByLogin(validationLogin);
   if (registeredLogin.length) {
     return res.status(400).json({
       error: 'Логин занят'
@@ -61,8 +61,6 @@ const validatePassword = async (validationPassword, res) => {
     })
   }
 }
-
-
 
 const validateEmail = async (validationEmail, res) => {
   const registeredEmail = await ExporerPerson.selectEmail(validationEmail);

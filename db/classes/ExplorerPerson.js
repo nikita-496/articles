@@ -1,8 +1,8 @@
 const db = require ('../db')
 
 class ExplorerPerson {
-  static async selectLogin(login) {
-    const result =  await db.query("SELECT login FROM person WHERE login = " + "'" + login + "'");
+  static async selectByLogin(login) {
+    const result =  await db.query("SELECT * FROM person WHERE login = " + "'" + login + "'");
     return result.rows
   }
   static async selectEmail(email) {
