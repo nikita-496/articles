@@ -1,23 +1,24 @@
-const personHelper = require('../utils/helper/person_helper');
+const helper = require('../utils/helper/helper');
+
+const TABLE = 'person'
 
 const handleAllPersons = (req, res) => {
-  personHelper.getAllPersons(res);
+  helper.getAll(TABLE, res);
 };
 
 const handleOnePerson = (req, res) => {
   const id = req.params.id;
-  personHelper.getOnePerson(id, res);
+  helper.getOne(TABLE, id, res);
 };
 
 const handleDeletedPerson = (req, res) => {
   const id = req.params.id;
-  personHelper.removePerson(id, res)
+  helper.remove(TABLE, id, res)
 }
 
 const handleUpdatedPerson = (req, res) => {
-  console.log(req.body)
   const { id, name, surname, login, password, email } = req.body;
-  personHelper.updatePerson({name, surname, login, password, email}, id, res)
+  helper.updatePerson(TABLE, {name, surname, login, password, email}, id, res)
 }
 
 module.exports = { handleAllPersons, handleOnePerson, handleDeletedPerson, handleUpdatedPerson };
