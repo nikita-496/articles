@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const personHelper = require('../utils/helper/person_helper');
+const helper = require('../utils/helper/helper');
 const validationHelper = require('../utils/helper/validation_helper');
 
 const handleNewPerson = async (req, res) => {
@@ -32,7 +32,7 @@ const handleNewPerson = async (req, res) => {
     // шифрование пароля
     const hashedPwd = await bcrypt.hash(password, 10);
     // создание и запись нового пользователя
-    personHelper.createNewPerson({ name, surname, login, password: hashedPwd, email }, res);
+    helper.createNewPerson('person', { name, surname, login, password: hashedPwd, email }, res);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

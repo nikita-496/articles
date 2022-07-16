@@ -8,6 +8,7 @@ app.use(express.json());
 
 app.use('/api/v1/person', require('./routes/person'));
 app.use('/api/v1/login', require('./routes/login'))
+app.use('/api/v1/post', require('./routes/post'))
 
 app.use(middleware.errorHandler)
 
