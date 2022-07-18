@@ -201,7 +201,7 @@ describe('a tests for the validation process', () => {
       await api
         .post('/api/v1/person')
         .send(newPerson)
-        .expect(400)
+        .expect(409)
         .expect('{"error":"Логин занят"}');
     });
     
@@ -254,7 +254,7 @@ describe('a tests for the validation process', () => {
       await api
         .post('/api/v1/person')
         .send(newPerson)
-        .expect(400)
+        .expect(409)
         .expect('{"error":"Email занят"}');
     });
 

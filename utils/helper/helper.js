@@ -39,8 +39,7 @@ const updatePerson = async (table, updateData, id, res) => {
   const person = new Person(updateData);
 
   logger.info('Обновленный пользователь:', person);
-  const updated = await Repository.update(table, id, columns, person, res);
-  res.json(updated);
+  return await Repository.update(table, id, columns, person, res);
 };
 
 const updatePost = async (table, updateData, id, res) => {

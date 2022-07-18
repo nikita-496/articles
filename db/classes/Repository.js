@@ -30,7 +30,8 @@ class Repository {
       `UPDATE ${table} set ${Helper.createDbQueryString(columns)} WHERE id = ${id} RETURNING *`,
       Helper.convertValuesToArray(values)
     );
-    res.json(updatedPerson.rows[0]);
+    return updatedPerson.rows[0]
+    //res.json(updatedPerson.rows[0]);
   }
 }
 

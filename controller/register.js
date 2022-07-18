@@ -32,7 +32,7 @@ const handleNewPerson = async (req, res) => {
     // шифрование пароля
     const hashedPwd = await bcrypt.hash(password, 10);
     // создание и запись нового пользователя
-    helper.createNewPerson('person', { name, surname, login, password: hashedPwd, email }, res);
+    helper.createNewPerson('person', { name, surname, login, password: hashedPwd, email, refresh_token: null }, res);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -1,4 +1,5 @@
 const helper = require('../utils/helper/helper');
+const bcrypt = require('bcrypt');
 
 const TABLE = 'person'
 
@@ -16,9 +17,11 @@ const handleDeletedPerson = (req, res) => {
   helper.remove(TABLE, id, res)
 }
 
-const handleUpdatedPerson = (req, res) => {
-  const { id, name, surname, login, password, email } = req.body;
-  helper.updatePerson(TABLE, {name, surname, login, password, email}, id, res)
+const handleUpdatedPerson = async (req, res) => {
+  let { id, name, surname, login, password, email } = req.body;
+  password = await bcrypt.hash(password, 10);
+  const updated = helper.updatePerson(TABLE, {name, surname, login, password, email, refresh_token: null}, id, res)
+  res.json(updated)
 }
 
 module.exports = { handleAllPersons, handleOnePerson, handleDeletedPerson, handleUpdatedPerson };
