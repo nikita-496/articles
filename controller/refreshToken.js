@@ -13,14 +13,14 @@ const handleRefreshToken = async (req, res) => {
   logger.info(`cookies - ${cookies.jwt}`);
   const refreshToken = cookies.jwt;
 
-  const findPerson = await ExplorerPerson.selectByRefreshToken(refreshToken);
+  const foundPerson = await ExplorerPerson.selectByRefreshToken(refreshToken);
 
-  if (!findPerson) {
+  if (!foundPerson) {
     return res.sendStatus(403); //Forbidden
   }
   
   jwt.verify(refreshToken, config.REFRESH_TOKEN_SECRET, (err, decoded) => {
-    if (err || findPerson.login !== decoded.login) {
+    if (err || foundPerson.login !== decoded.login) {
       return res.sendStatus(403);
     }
     const accessToken = jwt.sign({ login: decoded.login }, config.ACCESS_TOKEN_SECRET, {

@@ -34,12 +34,12 @@ const remove = async (table, id, res) => {
   res.status(204).end();
 };
 
-const updatePerson = async (table, updateData, id, res) => {
+const updatePerson = async (table, updateData, id) => {
   const columns = Object.keys(updateData);
   const person = new Person(updateData);
 
   logger.info('Обновленный пользователь:', person);
-  return await Repository.update(table, id, columns, person, res);
+  return await Repository.update(table, id, columns, person);
 };
 
 const updatePost = async (table, updateData, id, res) => {

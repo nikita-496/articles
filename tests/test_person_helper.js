@@ -1,4 +1,5 @@
 const db = require('../db/db');
+const bcrypt = require('bcrypt');
 const Person = require('../db/model/Person');
 
 const initialPersons = [
@@ -8,6 +9,7 @@ const initialPersons = [
     login: 'Alex',
     password: 'Alex',
     email: 'alex@gmail.com',
+    refresh_token: null
   },
   {
     name: 'Michael',
@@ -15,6 +17,7 @@ const initialPersons = [
     login: 'Micha',
     password: 'Micha',
     email: 'micha@gmail.com',
+    refresh_token: null
   },
 ];
 
@@ -23,10 +26,11 @@ const initializeDb = async () => {
 
   const personObjects = initialPersons.map((person) => new Person(person));
   const promiseArray = personObjects.map(async (person) => {
-    const { name, surname, login, password, email } = person;
+    let { name, surname, login, password, email,  refresh_token} = person;
+    password = await bcrypt.hash(password, 10);
     await db.query(
-      'INSERT INTO person (name, surname, login, password, email) values ($1,$2,$3,$4,$5) RETURNING *',
-      [name, surname, login, password, email]
+      'INSERT INTO person (name, surname, login, password, email, refresh_token) values ($1,$2,$3,$4,$5,$6) RETURNING *',
+      [name, surname, login, password, email, refresh_token]
     );
   });
   await Promise.all(promiseArray);

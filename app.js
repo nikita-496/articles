@@ -10,6 +10,8 @@ app.use(cookieParser())
 
 app.use('/api/v1/login', require('./routes/login'));
 app.use('/api/v1/refresh', require('./routes/refresh'));
+app.use('/api/v1/logout', require('./routes/logout'));
+
 
 app.use('/api/v1/post', require('./routes/post'));
 

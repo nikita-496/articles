@@ -20,7 +20,7 @@ const handleDeletedPerson = (req, res) => {
 const handleUpdatedPerson = async (req, res) => {
   let { id, name, surname, login, password, email } = req.body;
   password = await bcrypt.hash(password, 10);
-  const updated = helper.updatePerson(TABLE, {name, surname, login, password, email, refresh_token: null}, id, res)
+  const updated = helper.updatePerson(TABLE, {name, surname, login, password, email, refresh_token: null}, id)
   res.json(updated)
 }
 

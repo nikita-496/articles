@@ -25,13 +25,12 @@ class Repository {
     await db.query(`DELETE FROM ${table} WHERE id = ${id} RETURNING *`);
   }
 
-  static async update(table, id, columns, values, res) {
+  static async update(table, id, columns, values) {
     const updatedPerson = await db.query(
       `UPDATE ${table} set ${Helper.createDbQueryString(columns)} WHERE id = ${id} RETURNING *`,
       Helper.convertValuesToArray(values)
     );
     return updatedPerson.rows[0]
-    //res.json(updatedPerson.rows[0]);
   }
 }
 

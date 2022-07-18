@@ -11,20 +11,20 @@ const handleLogin = async (req, res) => {
     return res.status(400).json({ message: 'Логин и пароль обязательны' });
   }
 
-  const findPerson = await ExplorerPerson.selectByLogin(login);
-  const passwordCorrect = !findPerson ? false : await bcrypt.compare(password, findPerson.password);
+  const foundPerson = await ExplorerPerson.selectByLogin(login);
+  const passwordCorrect = !foundPerson ? false : await bcrypt.compare(password, foundPerson.password);
   
-  if (!(findPerson && passwordCorrect)) {
+  if (!(foundPerson && passwordCorrect)) {
     //Unauthorized
     return res.status(401).json({
       error: 'Пользователя с такими данными не существует',
     });
   }
 
-  const accessToken = createAccessToken(findPerson);
-  const refreshToken = createRefreshToken(findPerson);
+  const accessToken = createAccessToken(foundPerson);
+  const refreshToken = createRefreshToken(foundPerson);
 
-  const { name, surname, email, id} = findPerson;  
+  const { name, surname, email, id} = foundPerson;  
   password = await bcrypt.hash(password, 10);
   await helper.updatePerson('person', {name, surname, login, password, email, refresh_token: refreshToken}, id,res)
 
