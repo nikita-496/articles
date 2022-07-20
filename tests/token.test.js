@@ -1,7 +1,6 @@
 const supertest = require('supertest');
 const app = require('../app');
 const helper = require('./test_person_helper');
-const logger = require('../utils/logger');
 const api = supertest(app);
 
 describe('a tests for the login process', () => {

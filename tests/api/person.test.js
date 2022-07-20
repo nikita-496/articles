@@ -30,7 +30,7 @@ describe('a test for each route of the API', () => {
         .expect(200)
         .expect('Content-Type', /application\/json/);
 
-      expect(resultPerson.body).toEqual([personToView]);
+      expect(resultPerson.body).toEqual(personToView);
       logger.info(`Пользователь по id ${personToView.id} найден`);
     });
   });
