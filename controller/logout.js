@@ -1,6 +1,3 @@
-const jwt = require('jsonwebtoken');
-const config = require('../utils/config');
-
 const ExplorerPerson = require('../db/classes/ExplorerPerson');
 const helper = require('../utils/helper/helper');
 

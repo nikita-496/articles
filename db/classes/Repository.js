@@ -18,7 +18,7 @@ class Repository {
 
   static async getOne(table, id, res) {
     const result = await db.query(`SELECT * FROM ${table} WHERE id = ${id}`);
-    res.json(result.rows);
+    return res.json(result.rows[0]);
   }
 
   static async remove(table, id) {
