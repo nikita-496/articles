@@ -1,11 +1,14 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 require('express-async-errors');
 
 const middlewareError = require('./utils/middleware/error_handler.js');
 const cookieParser = require('cookie-parser');
 
-app.use(express.json());
+app.use(cors())
+app.use(express.static('build'))
+app.use(express.json())
 app.use(cookieParser())
 
 app.use('/api/v1/login', require('./routes/login'));
