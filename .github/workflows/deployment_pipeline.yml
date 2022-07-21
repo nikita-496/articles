@@ -20,19 +20,3 @@ jobs:
           run: npm install
         - name: lint
           run: npm run eslint
-        - name: test
-          run: npm run test
-  tag_release:
-      needs: [code_run]
-      runs-on: ubuntu-20.04
-      steps:
-        - uses: actions/checkout@v3
-          with:
-           fetch-depth: '0'
-        - name: Bump version and push tag
-          uses: anothrNick/github-tag-action@1.36.0
-          env: 
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            DEFAULT_BUMP: patch
-            WITH_V: true
-            DRY_RUN: true
