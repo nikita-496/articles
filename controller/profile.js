@@ -10,7 +10,7 @@ const handleAllProfile = (req, res) => {
   helper.getAll(TABLE, res);
 };
 
-const handleOneProfile = (res, req) => {
+const handleOneProfile = (req, res) => {
   const id = req.params.id
   helper.getOne(TABLE, id, res)
 }
