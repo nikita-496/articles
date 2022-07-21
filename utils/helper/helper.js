@@ -1,6 +1,7 @@
 const { Repository } = require('../../db/classes/Repository');
-const Person = require('../../db/model/Person');
-const Post = require('../../db/model/Post');
+const Person = require('../../db/models/Person');
+const Post = require('../../db/models/Post');
+const Profile = require('../../db/models/Profile');
 const logger = require('../logger');
 
 const createNewPerson = async (table, registrationData, res) => {
@@ -22,6 +23,16 @@ const createNewPost = async (table, data, res) => {
   res.status(201).json(savedPost);
   return savedPost;
 };
+
+const createNewProfile = async (table, data, res) => {
+  const columns = Object.keys(data).join(',');
+  const profile = new Profile(data);
+
+  logger.info('Новый профиль:', profile);
+  const savedProfile = await Repository.save(table, columns, profile);
+  res.status(201).json(savedProfile);
+  return savedProfile;
+}
 
 const getAll = (table, res) => Repository.getAll(table, res);
 
@@ -54,6 +65,7 @@ const updatePost = async (table, updateData, id, res) => {
 module.exports = {
   createNewPerson,
   createNewPost,
+  createNewProfile,
   getAll,
   getOne,
   remove,

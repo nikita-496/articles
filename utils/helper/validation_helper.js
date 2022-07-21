@@ -1,4 +1,4 @@
-const ExporerPerson = require('../../db/classes/ExplorerPerson');
+const Explorer = require('../../db/classes/ExplorerPerson');
 
 const validateName = async (validationName, res, field) => {
   if (validationName.length > 50) {
@@ -46,7 +46,7 @@ const validateLogin = async (validationLogin, res) => {
   }
 
   // Проверить наличие на дублирования логина регистрируемго пользователя с существующими в бд
-  else if (await ExporerPerson.selectByLogin(validationLogin)) {
+  else if (await Explorer.selectByLogin(validationLogin)) {
     return res.status(409).json({
       error: 'Логин занят',
     });
@@ -67,7 +67,7 @@ const validatePassword = async (validationPassword, res) => {
 };
 
 const validateEmail = async (validationEmail, res) => {
-  const registeredEmail = await ExporerPerson.selectEmail(validationEmail);
+  const registeredEmail = await Explorer.selectEmail(validationEmail);
   if (registeredEmail.length) {
     return res.status(409).json({
       error: 'Email занят',
