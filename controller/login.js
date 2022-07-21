@@ -29,14 +29,18 @@ const handleLogin = async (req, res) => {
   await helper.updatePerson('person', {name, surname, login, password, email, refresh_token: refreshToken}, id,res)
 
   res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-  res.json({ accessToken })
+  res.json(accessToken )
 };
 
 const createAccessToken = (person) => {
   const accessToken = jwt.sign({ login: person.login }, config.ACCESS_TOKEN_SECRET, {
     expiresIn: '30s',
   });
-  return accessToken;
+  const result = {
+    accessToken,
+    login: person.login
+  }
+  return result ;
 };
 
 const createRefreshToken = (person) => {
