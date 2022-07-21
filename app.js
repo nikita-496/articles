@@ -19,6 +19,7 @@ app.use('/api/v1/logout', require('./routes/logout'));
 
 app.use('/api/v1/person', require('./routes/person'));
 app.use('/api/v1/profile', require('./routes/profile'))
+app.use('/api/v1/feed', require('./routes/person_feed'))
 app.use('/api/v1/post', require('./routes/post'));
 
 app.use(middlewareError.errorHandler);

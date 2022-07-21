@@ -2,6 +2,7 @@ const { Repository } = require('../../db/classes/Repository');
 const Person = require('../../db/models/Person');
 const Post = require('../../db/models/Post');
 const Profile = require('../../db/models/Profile');
+const PersonFeed = require('../../db/models/PersonFeed')
 const logger = require('../logger');
 
 const createNewPerson = async (table, registrationData, res) => {
@@ -32,6 +33,16 @@ const createNewProfile = async (table, data, res) => {
   const savedProfile = await Repository.save(table, columns, profile);
   res.status(201).json(savedProfile);
   return savedProfile;
+}
+
+const createNewFeed = async (table, data, res) => {
+  const columns = Object.keys(data).join(',');
+  const profile = new PersonFeed(data);
+
+  logger.info('Новая лента пользователя:', profile);
+  const savedFeed  = await Repository.save(table, columns, profile);
+  res.status(201).json(savedFeed );
+  return savedFeed ;
 }
 
 const getAll = (table, res) => Repository.getAll(table, res);
@@ -66,6 +77,7 @@ module.exports = {
   createNewPerson,
   createNewPost,
   createNewProfile,
+  createNewFeed,
   getAll,
   getOne,
   remove,
