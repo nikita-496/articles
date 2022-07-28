@@ -1,6 +1,6 @@
 const db = require('../db/db');
 const bcrypt = require('bcrypt');
-const Person = require('../db/model/Person');
+const Person = require('../db/models/Person');
 
 const initialPersons = [
   {
@@ -36,8 +36,8 @@ const initializeDb = async () => {
   await Promise.all(promiseArray);
 };
 
-const checkPersonsInDb = async (table) => {
-  const persons = await db.query('SELECT * FROM ' + table);
+const checkPersonsInDb = async () => {
+  const persons = await db.query('SELECT * FROM ' + 'person');
   return persons.rows;
 };
 

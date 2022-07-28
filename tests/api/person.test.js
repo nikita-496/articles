@@ -22,7 +22,7 @@ describe('a test for each route of the API', () => {
       expect(res.body).toHaveLength(helper.initialPersons.length);
     });
     test('a specific person can be viewed', async () => {
-      const personAtStart = await helper.checkPersonsInDb('person');
+      const personAtStart = await helper.checkPersonsInDb();
       const personToView = personAtStart[0];
 
       const resultPerson = await api
@@ -51,7 +51,7 @@ describe('a test for each route of the API', () => {
         .expect(201)
         .expect('Content-Type', /application\/json/);
 
-      const personsAtEnd = await helper.checkPersonsInDb('person');
+      const personsAtEnd = await helper.checkPersonsInDb();
       expect(personsAtEnd).toHaveLength(helper.initialPersons.length + 1);
 
       const loginPersons = personsAtEnd.map((p) => p.login);
@@ -65,14 +65,12 @@ describe('a test for each route of the API', () => {
 
   describe('testing DELETE API', () => {
     test('a person can be deleted', async () => {
-      const personAtStart = await helper.checkPersonsInDb('person');
+      const personAtStart = await helper.checkPersonsInDb();
       const personToDelete = personAtStart[0];
 
-      await api
-        .delete(`/api/v1/person/${personToDelete.id}`)
-        .expect(204);
+      await api.delete(`/api/v1/person/${personToDelete.id}`).expect(204);
 
-      const personAtEnd = await helper.checkPersonsInDb('person');
+      const personAtEnd = await helper.checkPersonsInDb();
       expect(personAtEnd).toHaveLength(helper.initialPersons.length - 1);
 
       const login = personAtEnd.map((p) => p.login);
@@ -91,20 +89,25 @@ describe('a test for each route of the API', () => {
         email: 'alex@gmail.com',
       };
 
-      const personAtStart = await helper.checkPersonsInDb('person');
-      const personToUpdate = personAtStart[0];
+      const personAtStart = await helper.checkPersonsInDb();
+      const personToUpdate = personAtStart.filter(
+        (person) => person.email === updatePerson.email
+      )[0];
 
-      await api
+      let updatedPerson = await api
         .put('/api/v1/person')
-        .send({...updatePerson, id: personToUpdate.id})
+        .send({ ...updatePerson, id: personToUpdate.id })
         .expect('Content-Type', /application\/json/);
 
+      updatedPerson = JSON.parse(updatedPerson.text);
 
-      const personAtEnd = await helper.checkPersonsInDb('person');
+      const personAtEnd = await helper.checkPersonsInDb();
 
       expect(personAtEnd).toHaveLength(helper.initialPersons.length);
 
-      expect(personToUpdate).not.toEqual(personAtEnd[0]);
+      expect(updatedPerson).not.toEqual(personToUpdate[0]);
+
+      logger.info('ОБНОВЛЕННЫЙ ПОЛЬЗОВАТЕЛЬ: ', updatedPerson);
     });
   });
 });
