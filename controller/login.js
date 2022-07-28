@@ -37,8 +37,9 @@ const createAccessToken = (person) => {
     expiresIn: '30s',
   });
   const result = {
+    id:  person.id,
+    login: person.login,
     accessToken,
-    login: person.login
   }
   return result ;
 };

@@ -7,14 +7,14 @@ const initialPersons = [
     name: 'Alexandr',
     surname: 'Pushkin',
     login: 'Alex',
-    password: 'Alex',
+    password: 'A12345678',
     email: 'alex@gmail.com',
     refresh_token: null
   },
   {
     name: 'Michael',
     surname: 'Lermontov',
-    login: 'Micha',
+    login: 'M12345678',
     password: 'Micha',
     email: 'micha@gmail.com',
     refresh_token: null

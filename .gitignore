@@ -1,6 +1,6 @@
 node_modules
 package-lock.json
-.env.development
+.env
 config/password.js
 info.drawio
 tests/db/helper.sql
