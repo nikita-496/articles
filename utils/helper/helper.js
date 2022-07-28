@@ -3,7 +3,7 @@ const Person = require('../../db/models/Person');
 const Post = require('../../db/models/Post');
 const Profile = require('../../db/models/Profile');
 const PersonFeed = require('../../db/models/PersonFeed');
-//const Joiner = require('../../db/classes/Joiner');
+const Joiner = require('../../db/classes/Joiner');
 const logger = require('../logger');
 const { ExtraRepository } = require('../../db/classes/ExtraRepository');
 
@@ -40,8 +40,6 @@ const createNewFeed = async (table, data, res) => {
 
   logger.info('Данные новой ленты пользователя:', feed);
   const savedFeed = await Repository.save(table, columns, feed);
-
-  // joinTable('user_feed', 'profile', 'profile_id', );
 
   res.status(201).json(savedFeed);
   return savedFeed;
@@ -94,13 +92,20 @@ const updateFeed = async (table, updateData, id) => {
   return await Repository.update(table, id, columns, feed);
 }
 
-/*const joinTable = (from, to, fieldToConnect) => {
-  // SELECT user_feed.date, user_feed.time, user_feed.content, user_feed.profile_id FROM user_feed INNER JOIN profile ON user_feed.profile_id = profile_id WHERE user_feed.id = 45;
+const joinToPerson = async (data, res) => {
+  const { valueToJoing } = data
+  const joined = await Joiner.joinWithPerson(valueToJoing)
+  res.status(201).json(joined);
+  return joined;
+};
 
+const joinToProfile = async (data, res) => {
+  const { valueToJoing } = data
+  const joined = await Joiner.joinWithProfile(valueToJoing)
+  res.status(201).json(joined);
+  return joined;
+};
 
-  console.log(`SELECT ${from}.date,  ${from}.time, ${from}.content, ${from}.profile_id FROM ${from} INNER JOIN ${to} ON ${from}.${fieldToConnect} = ${fieldToConnect} WHERE `)
-  Joiner.join(from, to, fieldToConnect);
-};*/
 module.exports = {
   createNewPerson,
   createNewPost,
@@ -112,5 +117,7 @@ module.exports = {
   updatePerson,
   updatePost,
   updateProfile,
-  updateFeed
+  updateFeed,
+  joinToPerson,
+  joinToProfile
 };
