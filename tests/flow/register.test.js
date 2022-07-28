@@ -17,7 +17,6 @@ describe('person registration test', () => {
   });
 
   test('the registered person must go through the entire cycle of creating a new person', async () => {
-
     // Создать нового пользователя
     const registeredPerson = {
       name: 'Fedor',
@@ -96,7 +95,6 @@ describe('person registration test', () => {
     const feedAtStart = await feedHelper.checkFeedInDb();
     const lastFeedToUpdate = feedAtStart[feedAtStart.length - 1];
 
-
     let updatedFeed = await api
       .put('/api/v1/feed')
       .send({
@@ -110,5 +108,42 @@ describe('person registration test', () => {
     expect(updatedFeed.profile_id).not.toBeNull();
 
     logger.info('ОБНОВЛЕННАЯ ЛЕНТА: ', updatedFeed);
+
+    // Аутентификация
+    const person = {
+      login: 'Fedoro',
+      password: 'F12345678',
+    };
+    let authenPerson = await api
+      .post('/api/v1/login')
+      .send(person)
+      .expect('Content-Type', /application\/json/);
+
+    authenPerson = JSON.parse(authenPerson.text);
+
+    expect(authenPerson.login).toBe(person.login);
+
+    logger.info(authenPerson.login, '- ВОШЕЛ В СИСТЕМУ');
+
+    // Получение профиля
+    let joinWithPerson = await api
+      .post('/api/v1/joing/person')
+      .send({ user_id: String(authenPerson.id) })
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    joinWithPerson = JSON.parse(joinWithPerson.text);
+
+    logger.info('ОБЪЕДИНЕННАЯ ТАБЛИЦА ПРОФИЛЯ С ПОЛЬЗОВАТЕЛЕМ -', joinWithPerson);
+
+    let joinWithProfile = await api
+      .post('/api/v1/joing/profile')
+      .send({ profile_id: String(updatedFeed.profile_id) })
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    joinWithProfile = JSON.parse(joinWithProfile.text);
+
+    logger.info('ОБЪЕДИНЕННАЯ ТАБЛИЦА ЛЕНТЫ ПОЛЬЗОВАТЕЛЯ С ПРОФИЛЕМ -', joinWithProfile);
   });
 });
