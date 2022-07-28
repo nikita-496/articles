@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand ",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "eslint": "eslint .",
     "build:ui": "rm -rf build && cd ../articles-frontend/ && npm run build && cp -r build ../articles-backend",
-    "push:dev": "npm run elint && npm run test && git push origin dev",
+    "push:dev": "npm run eslint && npm run test && git push origin dev",
     "logs:prod": "heroku logs --tail"
   },
   "author": "shevkunovnikita97@gmail.com",
