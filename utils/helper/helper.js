@@ -41,7 +41,7 @@ const createNewFeed = async (table, data, res) => {
   logger.info('Данные новой ленты пользователя:', feed);
   const savedFeed = await Repository.save(table, columns, feed);
 
- // joinTable('user_feed', 'profile', 'profile_id', );
+  // joinTable('user_feed', 'profile', 'profile_id', );
 
   res.status(201).json(savedFeed);
   return savedFeed;
