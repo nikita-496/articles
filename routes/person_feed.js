@@ -5,6 +5,7 @@ feedRouter
   .route('/')
   .get(feedController.handleAllFeed)
   .post(feedController.handleNewFeed)
+  .put(feedController.handleUpdateFeed)
 
 feedRouter
   .route('/:id')

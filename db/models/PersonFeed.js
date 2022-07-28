@@ -1,9 +1,9 @@
 class PersonFeed {
-  constructor({ date, time, profile_id, content }) {
-    this.data = date
+  constructor({ date, time, content, profile_id }) {
+    this.date = date
     this.time = time
-    this.profile_id = profile_id
     this.content = content
+    this.profile_id = profile_id
   }
 }
 

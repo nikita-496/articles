@@ -1,9 +1,8 @@
 const helper = require('../utils/helper/helper')
 const TABLE = 'profile'
 
-const handleNewProfile  = (req, res) => {
-  const {user_id} = req.body
-  helper.createNewProfile(TABLE, {user_id}, res)
+const handleNewProfile = (req, res) => {
+  helper.createNewProfile(TABLE, res)
 }
 
 const handleAllProfile = (req, res) => {
@@ -15,4 +14,10 @@ const handleOneProfile = (req, res) => {
   helper.getOne(TABLE, id, res)
 }
 
-module.exports = { handleNewProfile, handleOneProfile, handleAllProfile }
+const handleUpdatedProfile = async (req, res) => {
+  let { id, user_id } = req.body;
+  const updated = await helper.updateProfile(TABLE, { user_id }, id)
+  res.json(updated)
+}
+
+module.exports = { handleNewProfile, handleOneProfile, handleAllProfile, handleUpdatedProfile }

@@ -3,8 +3,7 @@ const Timer = require('../db/classes/Timer')
 const TABLE = 'user_feed'
 
 const handleNewFeed  = async (req, res) => {
-  const { profile_id} = req.body
-  helper.createNewFeed(TABLE, {date:  await Timer.setDate(), time: await Timer.setTime(), profile_id, content: ['Нет активности']}, res)
+  helper.createNewFeed(TABLE, {date:  await Timer.setDate(), time: await Timer.setTime(), content: ['Нет активности'], profile_id: null}, res)
 }
 
 const handleAllFeed = (req, res) => {
@@ -16,4 +15,10 @@ const handleOneFeed = (req, res) => {
   helper.getOne(TABLE, id, res)
 }
 
-module.exports = { handleNewFeed, handleAllFeed, handleOneFeed }
+const handleUpdateFeed = async (req, res) => {
+  let {id, profile_id} = req.body
+  const updated = await helper.updateFeed(TABLE, {date:  await Timer.setDate(), time: await Timer.setTime(), content: ['Нет активности'],profile_id}, id)
+  res.json(updated)
+}
+
+module.exports = { handleNewFeed, handleAllFeed, handleOneFeed, handleUpdateFeed }

@@ -11,9 +11,9 @@ class Repository {
     return saved.rows[0];
   }
 
-  static async getAll(table, res) {
+  static async getAll(table) {
     const result = await db.query('SELECT * FROM ' + table);
-    return res.json(result.rows);
+    return result.rows;
   }
 
   static async getOne(table, id, res) {
@@ -27,7 +27,7 @@ class Repository {
 
   static async update(table, id, columns, values) {
     const updatedPerson = await db.query(
-      `UPDATE ${table} set ${Helper.createDbQueryString(columns)} WHERE id = ${id} RETURNING *`,
+      `UPDATE ${table} SET ${Helper.createDbQueryString(columns)} WHERE id = ${id} RETURNING *`,
       Helper.convertValuesToArray(values)
     );
     return updatedPerson.rows[0]

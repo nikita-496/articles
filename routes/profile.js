@@ -5,6 +5,7 @@ profileRouter
   .route('/')
   .get(profileController.handleAllProfile)
   .post(profileController.handleNewProfile)
+  .put(profileController.handleUpdatedProfile)
 
 profileRouter
   .route('/:id')
