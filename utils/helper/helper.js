@@ -3,6 +3,7 @@ const Person = require('../../db/models/Person');
 const Post = require('../../db/models/Post');
 const Profile = require('../../db/models/Profile');
 const PersonFeed = require('../../db/models/PersonFeed');
+const Comment = require('../../db/models/Comment')
 const Joiner = require('../../db/classes/Joiner');
 const logger = require('../logger');
 const { ExtraRepository } = require('../../db/classes/ExtraRepository');
@@ -44,6 +45,17 @@ const createNewFeed = async (table, data, res) => {
   res.status(201).json(savedFeed);
   return savedFeed;
 };
+
+const createNewComment = async (table, data, res) => {
+  const columns = Object.keys(data).join(',');
+  const comment = new Comment(data);
+
+  logger.info('Данные нового комментария:', comment);
+  const savedComment = await Repository.save(table, columns, comment);
+
+  res.status(201).json(savedComment);
+  return savedComment;
+}
 
 const getAll = async (table, res) => {
   const result = await Repository.getAll(table);
@@ -92,6 +104,15 @@ const updateFeed = async (table, updateData, id) => {
   return await Repository.update(table, id, columns, feed);
 }
 
+const updateComment = async (table, updateData, id, res) => {
+  const columns = Object.keys(updateData);
+  const comment = new Comment(updateData);
+
+  logger.info('Данные для обновления комментария:', comment);
+  const updated = await Repository.update(table, id, columns, comment);
+  res.json(updated);
+};
+
 const joinToPerson = async (data, res) => {
   const { valueToJoing } = data
   const joined = await Joiner.joinWithPerson(valueToJoing)
@@ -111,6 +132,7 @@ module.exports = {
   createNewPost,
   createNewProfile,
   createNewFeed,
+  createNewComment,
   getAll,
   getOne,
   remove,
@@ -118,6 +140,7 @@ module.exports = {
   updatePost,
   updateProfile,
   updateFeed,
+  updateComment,
   joinToPerson,
   joinToProfile
 };
