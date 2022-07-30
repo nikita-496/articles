@@ -15,12 +15,11 @@ app.use('/api/v1/login', require('./routes/login'));
 app.use('/api/v1/refresh', require('./routes/refresh'));
 app.use('/api/v1/logout', require('./routes/logout'));
 
-
-
 app.use('/api/v1/person', require('./routes/person'));
 app.use('/api/v1/profile', require('./routes/profile'))
 app.use('/api/v1/feed', require('./routes/person_feed'))
 app.use('/api/v1/post', require('./routes/post'));
+app.use('/api/v1/comment', require('./routes/comment'));
 
 app.use('/api/v1/joing/profile', require('./routes/joining/feedForProfile'))
 app.use('/api/v1/joing/person', require('./routes/joining/profileForPerson'))
