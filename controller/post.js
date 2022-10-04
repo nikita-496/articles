@@ -1,5 +1,4 @@
 const helper = require('../utils/helper/helper');
-
 const TABLE = 'post';
 
 const handleNewPost = (req, res) => {
@@ -7,9 +6,7 @@ const handleNewPost = (req, res) => {
   helper.createNewPost(TABLE, { title, content, tags }, res);
 };
 
-const handleAllPosts = (req, res) => {
-  helper.getAll(TABLE, res);
-};
+const handleAllPosts = () => helper.getAll(TABLE);
 
 const handleOnePost = (req, res) => {
   const id = req.params.id;

@@ -3,7 +3,7 @@ const Person = require('../../db/models/Person');
 const Post = require('../../db/models/Post');
 const Profile = require('../../db/models/Profile');
 const PersonFeed = require('../../db/models/PersonFeed');
-const Comment = require('../../db/models/Comment')
+const Comment = require('../../db/models/Comment');
 const Joiner = require('../../db/classes/Joiner');
 const logger = require('../logger');
 const { ExtraRepository } = require('../../db/classes/ExtraRepository');
@@ -55,16 +55,11 @@ const createNewComment = async (table, data, res) => {
 
   res.status(201).json(savedComment);
   return savedComment;
-}
-
-const getAll = async (table, res) => {
-  const result = await Repository.getAll(table);
-  res.json(result);
 };
 
-const getOne = (table, id, res) => {
-  Repository.getOne(table, id, res);
-};
+const getAll = async (table) => await Repository.getAll(table)
+
+const getOne = (table, id, res) => Repository.getOne(table, id, res);
 
 const remove = async (table, id, res) => {
   await Repository.remove(table, id);
@@ -94,15 +89,15 @@ const updateProfile = async (table, updateData, id) => {
 
   logger.info('Данные для обновления профиля: ', profile);
   return await Repository.update(table, id, columns, profile);
-}
+};
 
 const updateFeed = async (table, updateData, id) => {
   const columns = Object.keys(updateData);
-  const feed = new PersonFeed(updateData); 
+  const feed = new PersonFeed(updateData);
 
   logger.info('Данные для обновления ленты: ', feed);
   return await Repository.update(table, id, columns, feed);
-}
+};
 
 const updateComment = async (table, updateData, id, res) => {
   const columns = Object.keys(updateData);
@@ -114,15 +109,15 @@ const updateComment = async (table, updateData, id, res) => {
 };
 
 const joinToPerson = async (data, res) => {
-  const { valueToJoing } = data
-  const joined = await Joiner.joinWithPerson(valueToJoing)
+  const { valueToJoing } = data;
+  const joined = await Joiner.joinWithPerson(valueToJoing);
   res.status(201).json(joined);
   return joined;
 };
 
 const joinToProfile = async (data, res) => {
-  const { valueToJoing } = data
-  const joined = await Joiner.joinWithProfile(valueToJoing)
+  const { valueToJoing } = data;
+  const joined = await Joiner.joinWithProfile(valueToJoing);
   res.status(201).json(joined);
   return joined;
 };
@@ -142,5 +137,5 @@ module.exports = {
   updateFeed,
   updateComment,
   joinToPerson,
-  joinToProfile
+  joinToProfile,
 };
