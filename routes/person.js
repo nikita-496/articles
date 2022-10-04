@@ -5,7 +5,9 @@ const personController = require('../controller/person');
 personRouter
   .route('/')
   .post(registerController.handleNewPerson)
-  .get(personController.handleAllPersons)
+  .get(async (req, res) => {
+    res.json(await personController.handleAllPersons())
+  })
   .put(personController.handleUpdatedPerson)
 
 personRouter

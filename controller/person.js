@@ -3,9 +3,7 @@ const bcrypt = require('bcrypt');
 
 const TABLE = 'person'
 
-const handleAllPersons = (req, res) => {
-  helper.getAll(TABLE, res);
-};
+const handleAllPersons = () => helper.getAll(TABLE);
 
 const handleOnePerson = (req, res) => {
   const id = req.params.id;
